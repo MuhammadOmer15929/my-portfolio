@@ -84,6 +84,8 @@ if (canvas) {
 
 // --- Global UI Elements ---
 const navbar = document.getElementById('navbar');
+const navLinksUl = document.getElementById('nav-links');
+const mobileMenuBtn = document.getElementById('mobile-menu-btn');
 const navLinks = document.querySelectorAll('.nav-links a');
 const sections = document.querySelectorAll('section');
 const backToTop = document.getElementById('back-to-top');
@@ -111,6 +113,34 @@ if (revealElements.length > 0) {
 
     revealElements.forEach(el => revealObserver.observe(el));
 }
+
+// --- Mobile Menu Toggle ---
+if (mobileMenuBtn && navLinksUl) {
+    mobileMenuBtn.addEventListener('click', () => {
+        navLinksUl.classList.toggle('active');
+        const icon = mobileMenuBtn.querySelector('i');
+        if (navLinksUl.classList.contains('active')) {
+            icon.setAttribute('data-lucide', 'x');
+        } else {
+            icon.setAttribute('data-lucide', 'menu');
+        }
+        lucide.createIcons();
+    });
+}
+
+// Close mobile menu when clicking a link
+navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        if (navLinksUl && navLinksUl.classList.contains('active')) {
+            navLinksUl.classList.remove('active');
+            const icon = mobileMenuBtn.querySelector('i');
+            if (icon) {
+                icon.setAttribute('data-lucide', 'menu');
+                lucide.createIcons();
+            }
+        }
+    });
+});
 
 // --- Navbar & Scroll Effects ---
 window.addEventListener('scroll', () => {
@@ -231,8 +261,20 @@ setupSlider(projectsGrid, prevProject, nextProject);
 setupSlider(skillsGrid, prevSkill, nextSkill);
 
 // --- Back to Top Action ---
+// --- Back to Top Action ---
 if (backToTop) {
     backToTop.addEventListener('click', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
+
+// --- 3D Tilt Animations ---
+if (typeof VanillaTilt !== 'undefined') {
+    VanillaTilt.init(document.querySelectorAll(".skill-card, .project-card, #certifications .glass-panel"), {
+        max: 10,
+        speed: 400,
+        glare: true,
+        "max-glare": 0.15,
+        scale: 1.02,
     });
 }
