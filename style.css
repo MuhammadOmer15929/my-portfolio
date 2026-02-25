@@ -579,8 +579,15 @@ nav.scrolled {
 /* --- Contact Form --- */
 .contact-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: 2.5rem;
+    align-items: start;
+}
+
+.contact-info,
+.contact-form {
+    min-width: 0;
+    /* Prevents grid blowout from long unbroken text */
 }
 
 .contact-info h3 {
@@ -597,6 +604,8 @@ nav.scrolled {
     display: flex;
     align-items: center;
     gap: 1rem;
+    word-break: break-word;
+    /* Allows long email to wrap instead of overflowing */
 }
 
 .contact-form input,
